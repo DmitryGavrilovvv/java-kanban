@@ -1,5 +1,69 @@
 public class Main {
+    static TaskManager manager = new TaskManager();
+
     public static void main(String[] args) {
-        TaskManager manager = new TaskManager();
+        Task task1 = new Task("Помыть посуду", "Вымыть всю посуду дочиста", TaskStatus.NEW);
+        Task task2 = new Task("Вытереть пыль", "Вытереть всю пыль в квартире", TaskStatus.NEW);
+        int task1Id = manager.addTask(task1);
+        manager.addTask(task2);
+
+        Epic epic1 = new Epic("Очистить пол", "Подмести и помыть пол", TaskStatus.NEW);
+        int epicId = manager.addEpic(epic1);
+        int epic1Id = epicId;
+        Subtask subtask1Epic1 = new Subtask("Подмести пол"
+                , "Подмести весь пол веником", TaskStatus.NEW, epicId);
+        int subtask1Epic1Id = manager.addSubtask(subtask1Epic1);
+
+        Subtask subtask2Epic1 = new Subtask("Помыть пол"
+                , "Помыть весь пол тряпкой", TaskStatus.NEW, epicId);
+        int subtask2Epic1Id = manager.addSubtask(subtask2Epic1);
+
+        Epic epic2 = new Epic("Включить свет", "Включить свет нажав на переключатель", TaskStatus.NEW);
+        epicId = manager.addEpic(epic2);
+        int epic2Id = epicId;
+
+        Subtask subtask1Epic2 = new Subtask("Нажать переключатель"
+                , "Нажать на переключатель чтобы включился свет", TaskStatus.NEW, epicId);
+        int subtask1Epic2Id = manager.addSubtask(subtask1Epic2);
+
+        System.out.println(manager.getAllTasks());
+
+        System.out.println(manager.getAllEpicSubtasks(epic1Id));
+
+        Task task = manager.getById(task1Id);
+        task.status = TaskStatus.DONE;
+        updateSuccess(manager.updateTask(task));
+
+        task = manager.getById(subtask1Epic1Id);
+        task.status = TaskStatus.DONE;
+        updateSuccess(manager.updateSubtask((Subtask) task));
+
+        task = manager.getById(subtask1Epic2Id);
+        task.status = TaskStatus.DONE;
+        updateSuccess(manager.updateSubtask((Subtask) task));
+
+        System.out.println(manager.getAllTasks());
+
+        manager.removeById(subtask2Epic1Id);
+        manager.removeById(epic2Id);
+        System.out.println(manager.getAllTasks());
+
+        manager.removeAllTasks();
+        System.out.println(manager.getAllTasks());
+    }
+
+    private static void updateSuccess(int result) {
+        switch (result) {
+            case 1:
+                System.out.println("Обновление успешно выполнено");
+                break;
+            case -1:
+                System.out.println("Передана пустая задача");
+                break;
+            case -2:
+                System.out.println("Такой задачи не существует");
+        }
+
     }
 }
+
