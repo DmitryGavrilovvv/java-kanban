@@ -30,17 +30,17 @@ public class Main {
 
         System.out.println(manager.getAllEpicSubtasks(epic1Id));
 
-        Task task = manager.getById(task1Id);
+        Task task = manager.getTaskById(task1Id);
         task.status = TaskStatus.DONE;
-        updateSuccess(manager.updateTask(task));
+        manager.updateTask(task);
 
-        task = manager.getById(subtask1Epic1Id);
+        task = manager.getSubtaskById(subtask1Epic1Id);
         task.status = TaskStatus.DONE;
-        updateSuccess(manager.updateSubtask((Subtask) task));
+        manager.updateSubtask((Subtask) task);
 
-        task = manager.getById(subtask1Epic2Id);
+        task = manager.getSubtaskById(subtask1Epic2Id);
         task.status = TaskStatus.DONE;
-        updateSuccess(manager.updateSubtask((Subtask) task));
+        manager.updateSubtask((Subtask) task);
 
         System.out.println(manager.getAllTasks());
 
@@ -50,20 +50,6 @@ public class Main {
 
         manager.removeAllTasks();
         System.out.println(manager.getAllTasks());
-    }
-
-    private static void updateSuccess(int result) {
-        switch (result) {
-            case 1:
-                System.out.println("Обновление успешно выполнено");
-                break;
-            case -1:
-                System.out.println("Передана пустая задача");
-                break;
-            case -2:
-                System.out.println("Такой задачи не существует");
-        }
-
     }
 }
 
