@@ -1,14 +1,19 @@
+package ru.yandex.javacource.Gavrilov.schedule.task;
+
+import ru.yandex.javacource.Gavrilov.schedule.TaskStatus;
+
 public class Task {
     protected String name;
     protected String description;
     protected TaskStatus status;
     protected int id;
 
-    Task(String name, String description, TaskStatus status) {
+    public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
     }
+
     public String getName() {
         return name;
     }

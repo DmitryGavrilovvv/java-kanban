@@ -1,3 +1,7 @@
+package ru.yandex.javacource.Gavrilov.schedule.task;
+
+import ru.yandex.javacource.Gavrilov.schedule.TaskStatus;
+
 public class Subtask extends Task {
     private int epicId;
 

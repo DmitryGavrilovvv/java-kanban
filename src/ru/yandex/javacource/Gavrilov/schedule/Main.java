@@ -1,3 +1,8 @@
+package ru.yandex.javacource.Gavrilov.schedule;
+
+import ru.yandex.javacource.Gavrilov.schedule.manager.TaskManager;
+import ru.yandex.javacource.Gavrilov.schedule.task.*;
+
 public class Main {
     static TaskManager manager = new TaskManager();
 
@@ -26,30 +31,30 @@ public class Main {
                 , "Нажать на переключатель чтобы включился свет", TaskStatus.NEW, epicId);
         int subtask1Epic2Id = manager.addSubtask(subtask1Epic2);
 
-        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
 
         System.out.println(manager.getAllEpicSubtasks(epic1Id));
 
         Task task = manager.getTaskById(task1Id);
-        task.status = TaskStatus.DONE;
+        task.setStatus(TaskStatus.DONE);
         manager.updateTask(task);
 
         task = manager.getSubtaskById(subtask1Epic1Id);
-        task.status = TaskStatus.DONE;
+        task.setStatus(TaskStatus.DONE);
         manager.updateSubtask((Subtask) task);
 
         task = manager.getSubtaskById(subtask1Epic2Id);
-        task.status = TaskStatus.DONE;
+        task.setStatus(TaskStatus.DONE);
         manager.updateSubtask((Subtask) task);
 
-        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
 
-        manager.removeById(subtask2Epic1Id);
-        manager.removeById(epic2Id);
-        System.out.println(manager.getAllTasks());
+        manager.removeSubtask(subtask2Epic1Id);
+        manager.removeEpic(epic2Id);
+        System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
 
         manager.removeAllTasks();
-        System.out.println(manager.getAllTasks());
+        System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
     }
 }
 

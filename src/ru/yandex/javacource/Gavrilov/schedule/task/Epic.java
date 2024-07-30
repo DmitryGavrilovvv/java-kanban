@@ -1,3 +1,7 @@
+package ru.yandex.javacource.Gavrilov.schedule.task;
+
+import ru.yandex.javacource.Gavrilov.schedule.TaskStatus;
+
 import java.util.ArrayList;
 
 public class Epic extends Task {
@@ -21,6 +25,10 @@ public class Epic extends Task {
 
     public void setSubtasksIds(ArrayList<Integer> subtasksIds) {
         this.subtasksIds = subtasksIds;
+    }
+
+    public void cleanSubtaskIds() {
+        subtasksIds.clear();
     }
 
     @Override
