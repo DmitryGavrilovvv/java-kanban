@@ -21,9 +21,9 @@ public final class TaskManager {
         subtasks = new HashMap<>();
     }
 
-    public int addTask(Task task) {
+    public Integer addTask(Task task) {
         if (task == null) {
-            return -1;
+            return null;
         }
         task.setId(++generatorId);
         tasks.put(task.getId(), task);
@@ -39,9 +39,9 @@ public final class TaskManager {
         tasks.put(id, task);
     }
 
-    public int addEpic(Epic epic) {
+    public Integer addEpic(Epic epic) {
         if (epic == null) {
-            return -1;
+            return null;
         }
         epic.setId(++generatorId);
         epics.put(epic.getId(), epic);
