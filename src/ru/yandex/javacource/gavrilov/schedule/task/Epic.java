@@ -1,6 +1,4 @@
-package ru.yandex.javacource.Gavrilov.schedule.task;
-
-import ru.yandex.javacource.Gavrilov.schedule.TaskStatus;
+package ru.yandex.javacource.gavrilov.schedule.task;
 
 import java.util.ArrayList;
 

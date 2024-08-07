@@ -1,10 +1,10 @@
-package ru.yandex.javacource.Gavrilov.schedule.manager;
+package ru.yandex.javacource.gavrilov.schedule.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import ru.yandex.javacource.Gavrilov.schedule.TaskStatus;
-import ru.yandex.javacource.Gavrilov.schedule.task.*;
+import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
+import ru.yandex.javacource.gavrilov.schedule.task.*;
 
 /**
  * Класс для управления задачами
@@ -44,7 +44,6 @@ public final class TaskManager {
             return -1;
         }
         epic.setId(++generatorId);
-        ;
         epics.put(epic.getId(), epic);
         return epic.getId();
     }
@@ -61,7 +60,7 @@ public final class TaskManager {
     public Integer addSubtask(Subtask subtask) {
         Epic epic = epics.get(subtask.getEpicId());
         if (epic == null) {
-            return null;//при возврате null(как в вашем примере) выдаёт ошибку заменил на 0
+            return null;
         }
         final int id = ++generatorId;
         subtask.setId(id);

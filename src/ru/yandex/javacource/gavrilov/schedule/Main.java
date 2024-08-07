@@ -1,7 +1,7 @@
-package ru.yandex.javacource.Gavrilov.schedule;
+package ru.yandex.javacource.gavrilov.schedule;
 
-import ru.yandex.javacource.Gavrilov.schedule.manager.TaskManager;
-import ru.yandex.javacource.Gavrilov.schedule.task.*;
+import ru.yandex.javacource.gavrilov.schedule.manager.TaskManager;
+import ru.yandex.javacource.gavrilov.schedule.task.*;
 
 public class Main {
     static TaskManager manager = new TaskManager();
