@@ -1,10 +1,13 @@
 package ru.yandex.javacource.gavrilov.schedule;
 
+import ru.yandex.javacource.gavrilov.schedule.manager.HistoryManager;
+import ru.yandex.javacource.gavrilov.schedule.manager.InMemoryTaskManager;
+import ru.yandex.javacource.gavrilov.schedule.manager.Manager;
 import ru.yandex.javacource.gavrilov.schedule.manager.TaskManager;
 import ru.yandex.javacource.gavrilov.schedule.task.*;
 
 public class Main {
-    static TaskManager manager = new TaskManager();
+    static TaskManager manager = Manager.getDefault();
 
     public static void main(String[] args) {
         Task task1 = new Task("Помыть посуду", "Вымыть всю посуду дочиста", TaskStatus.NEW);
@@ -47,6 +50,10 @@ public class Main {
         task.setStatus(TaskStatus.DONE);
         manager.updateSubtask((Subtask) task);
 
+        for (int i = 0; i < 11; i++) {
+            task = manager.getSubtaskById(subtask1Epic1Id);
+        }
+
         System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
 
         manager.removeSubtask(subtask2Epic1Id);
@@ -55,6 +62,11 @@ public class Main {
 
         manager.removeAllTasks();
         System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
+
+        HistoryManager historyManager = manager.getHistoryManager();
+
+        System.out.println("История просмотра");
+        System.out.println(historyManager.getHistory());
     }
 }
 

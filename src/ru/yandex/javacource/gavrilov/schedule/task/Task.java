@@ -4,12 +4,19 @@ public class Task {
     protected String name;
     protected String description;
     protected TaskStatus status;
-    protected int id;
+    protected Integer id;
 
     public Task(String name, String description, TaskStatus status) {
         this.name = name;
         this.description = description;
         this.status = status;
+    }
+
+    public Task(String name, String description, TaskStatus status, Integer id) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;
     }
 
     public String getName() {
@@ -36,7 +43,7 @@ public class Task {
         this.status = status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
