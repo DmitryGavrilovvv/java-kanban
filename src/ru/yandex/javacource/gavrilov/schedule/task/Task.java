@@ -1,6 +1,6 @@
 package ru.yandex.javacource.gavrilov.schedule.task;
 
-public class Task {
+public class Task{
     protected String name;
     protected String description;
     protected TaskStatus status;
@@ -50,6 +50,7 @@ public class Task {
     public void setId(int id) {
         this.id = id;
     }
+
 
     @Override
     public String toString() {

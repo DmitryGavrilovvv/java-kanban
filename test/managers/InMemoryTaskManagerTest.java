@@ -12,6 +12,7 @@ import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InMemoryTaskManagerTest {
     private TaskManager manager;
@@ -50,7 +51,7 @@ public class InMemoryTaskManagerTest {
         Task task2 = new Task("task", "desc", TaskStatus.NEW);
         manager.addTask(task2);//при добавлении в мапу должен присвоиться id = 1
         manager.addTask(task1);
-        ArrayList<Task> tasks = manager.getTasks();
+        List<Task> tasks = manager.getTasks();
         task1 = tasks.get(0);
         task2 = tasks.get(1);
         Assertions.assertNotEquals(task1.getId(), task2.getId());
@@ -67,13 +68,12 @@ public class InMemoryTaskManagerTest {
     @Test
     public void shouldHistoryManagerSaveTaskAndUpdateTask() {
         Task task1 = new Task("task", "desc", TaskStatus.NEW, 1);
+        Task task2 = new Task("task1", "desc", TaskStatus.NEW, 1);
         manager.addTask(task1);
-        task1 = manager.getTaskById(1);
-        task1.setName("task1");
-        manager.updateTask(task1);
-        task1 = manager.getTaskById(1);
-        HistoryManager historyManager = manager.getHistoryManager();
-        ArrayList<Task> history = historyManager.getHistory();
+        Task task = manager.getTaskById(1);
+        manager.updateTask(task2);
+        task = manager.getTaskById(1);
+        List<Task> history = manager.getHistoryManager();
         Assertions.assertNotEquals(history.get(0), history.get(1));
     }
 

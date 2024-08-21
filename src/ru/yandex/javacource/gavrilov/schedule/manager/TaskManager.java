@@ -5,17 +5,18 @@ import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
     Integer addTask(Task task);
 
     void updateTask(Task task);
 
-    Integer addEpic(Task task);
+    Integer addEpic(Epic epic);
 
     void updateEpic(Epic epic);
 
-    Integer addSubtask(Task task);
+    Integer addSubtask(Subtask subtask);
 
     void updateSubtask(Subtask subtask);
 
@@ -39,13 +40,13 @@ public interface TaskManager {
 
     Subtask getSubtaskById(int id);
 
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
-    ArrayList<Subtask> getSubtasks();
+    List<Subtask> getSubtasks();
 
-    ArrayList<Subtask> getAllEpicSubtasks(int epicId);
+    List<Subtask> getAllEpicSubtasks(int epicId);
 
-    HistoryManager getHistoryManager();
+    List<Task> getHistoryManager();
 }
