@@ -1,4 +1,4 @@
-package managers;
+package ru.yandex.javacource.gavrilov.schedule.managers;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
