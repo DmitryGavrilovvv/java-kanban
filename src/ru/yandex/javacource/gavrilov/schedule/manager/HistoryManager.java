@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface HistoryManager {
     void addTaskInHistory(Task task);
-    void addEpicInHistory(Epic epic);
-    void addSubtaskInHistory(Subtask subtask);
 
     List<Task> getHistory();
 
