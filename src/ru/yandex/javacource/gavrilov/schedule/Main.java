@@ -44,7 +44,6 @@ public class Main {
         manager.updateTask(task);
 
 
-
         task = manager.getSubtaskById(subtask1Epic2Id);
         task.setStatus(TaskStatus.DONE);
         manager.updateSubtask((Subtask) task);
@@ -55,11 +54,15 @@ public class Main {
 
         manager.getSubtaskById(subtask2Epic1Id);
         Subtask subtask2Epic2 = new Subtask("Помыть пол"
-                , "Помыть весь пол тряпкой", TaskStatus.DONE, epicId,subtask2Epic1Id);
+                , "Помыть весь пол тряпкой", TaskStatus.DONE, epicId, subtask2Epic1Id);
         manager.updateSubtask(subtask2Epic2);
         subtask2Epic1.setId(subtask2Epic1Id);
 
         task = manager.getSubtaskById(subtask2Epic1Id);
+        List<Task> history = manager.getHistoryManager();
+
+        System.out.println("История просмотра");
+        System.out.println(history);
 
         System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
 
@@ -70,10 +73,6 @@ public class Main {
         manager.removeAllTasks();
         System.out.println(manager.getTasks() + "" + manager.getEpics() + manager.getSubtasks());
 
-        List<Task> history= manager.getHistoryManager();
-
-        System.out.println("История просмотра");
-        System.out.println(history);
     }
 }
 

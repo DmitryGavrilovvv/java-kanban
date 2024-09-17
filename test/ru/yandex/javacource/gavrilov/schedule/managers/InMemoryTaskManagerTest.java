@@ -3,15 +3,12 @@ package ru.yandex.javacource.gavrilov.schedule.managers;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.javacource.gavrilov.schedule.manager.HistoryManager;
 import ru.yandex.javacource.gavrilov.schedule.manager.Manager;
 import ru.yandex.javacource.gavrilov.schedule.manager.TaskManager;
 import ru.yandex.javacource.gavrilov.schedule.task.Epic;
 import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class InMemoryTaskManagerTest {
@@ -50,11 +47,8 @@ public class InMemoryTaskManagerTest {
         Task task1 = new Task("task", "desc", TaskStatus.NEW, 1);
         Task task2 = new Task("task", "desc", TaskStatus.NEW);
         manager.addTask(task2);//при добавлении в мапу должен присвоиться id = 1
-        manager.addTask(task1);
-        List<Task> tasks = manager.getTasks();
-        task1 = tasks.get(0);
-        task2 = tasks.get(1);
-        Assertions.assertNotEquals(task1.getId(), task2.getId());
+        Integer id2 = manager.addTask(task1);
+        Assertions.assertNull(id2);
     }
 
     @Test
@@ -74,7 +68,25 @@ public class InMemoryTaskManagerTest {
         manager.updateTask(task2);
         task = manager.getTaskById(1);
         List<Task> history = manager.getHistoryManager();
-        Assertions.assertNotEquals(history.get(0), history.get(1));
+        Assertions.assertNotEquals(task1, history.get(0));
     }
 
+    @Test
+    public void shouldRemovedTaskDoNotSaveOldId(){
+        Task task1 = new Task("task", "desc", TaskStatus.NEW, 1);
+        int id = manager.addTask(task1);
+        manager.removeTask(id);
+        Assertions.assertNull(task1.getId());
+    }
+
+    @Test
+    public void shouldEpicDoNotSaveIdRemovableSubtask(){
+        Epic epic = new Epic("epic","desc",TaskStatus.NEW);
+        int epicId = manager.addEpic(epic);
+        Subtask subtask = new Subtask("subtask","desc",TaskStatus.NEW,epicId);
+        int subtaskId = manager.addSubtask(subtask);
+        manager.removeSubtask(subtaskId);
+        List<Integer> ids = manager.getEpicById(epicId).getSubtasksIds();
+        Assertions.assertFalse(ids.contains(subtaskId));
+    }
 }

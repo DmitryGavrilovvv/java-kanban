@@ -1,6 +1,8 @@
 package ru.yandex.javacource.gavrilov.schedule.task;
 
-public class Task{
+import java.util.Objects;
+
+public class Task {
     protected String name;
     protected String description;
     protected TaskStatus status;
@@ -47,7 +49,7 @@ public class Task{
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -68,18 +70,18 @@ public class Task{
         if (obj == null || getClass() != obj.getClass()) return false;
 
         Task task = (Task) obj;
-        return id == task.id
+        return Objects.equals(id, task.id)
                 && name.equals(task.name)
                 && description.equals(task.description)
-                && status == task.status;
+                && status.equals(task.status);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 11 * result + description.hashCode();
-        result = 11 * result + status.hashCode();
-        result = 11 * result + id;
+        int result = id.hashCode()*11;
+        result = name.hashCode() *11+result;
+        result = description.hashCode()*11+result;
+        result=status.hashCode()*11+result;
         return result;
     }
 }
