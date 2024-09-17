@@ -19,16 +19,16 @@ public class Node {
         return head;
     }
 
-    public static void setHead(Node node){
-        head=node;
+    public static void setHead(Node node) {
+        head = node;
     }
 
     public static Node getTail() {
         return tail;
     }
 
-    public static void setTail(Node node){
-        tail=node;
+    public static void setTail(Node node) {
+        tail = node;
     }
 
     public void setPrevious(Node node) {
@@ -47,7 +47,7 @@ public class Node {
         return next;
     }
 
-    public Task getValue(){
+    public Task getValue() {
         return value;
     }
 
@@ -62,7 +62,7 @@ public class Node {
         if (obj == null || getClass() != obj.getClass()) return false;
 
         Node node = (Node) obj;
-        return Objects.equals(value,node.getValue());
+        return Objects.equals(value, node.getValue());
     }
 
     @Override

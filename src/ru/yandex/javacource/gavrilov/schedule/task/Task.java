@@ -78,10 +78,10 @@ public class Task {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode()*11;
-        result = name.hashCode() *11+result;
-        result = description.hashCode()*11+result;
-        result=status.hashCode()*11+result;
+        int result = id.hashCode() * 11;
+        result = name.hashCode() * 11 + result;
+        result = description.hashCode() * 11 + result;
+        result = status.hashCode() * 11 + result;
         return result;
     }
 }

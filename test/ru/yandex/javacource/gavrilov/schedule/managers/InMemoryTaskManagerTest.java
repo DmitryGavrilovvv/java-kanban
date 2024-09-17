@@ -9,6 +9,7 @@ import ru.yandex.javacource.gavrilov.schedule.task.Epic;
 import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
+
 import java.util.List;
 
 public class InMemoryTaskManagerTest {
@@ -72,7 +73,7 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldRemovedTaskDoNotSaveOldId(){
+    public void shouldRemovedTaskDoNotSaveOldId() {
         Task task1 = new Task("task", "desc", TaskStatus.NEW, 1);
         int id = manager.addTask(task1);
         manager.removeTask(id);
@@ -80,13 +81,21 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void shouldEpicDoNotSaveIdRemovableSubtask(){
-        Epic epic = new Epic("epic","desc",TaskStatus.NEW);
+    public void shouldEpicDoNotSaveIdRemovableSubtask() {
+        Epic epic = new Epic("epic", "desc", TaskStatus.NEW);
         int epicId = manager.addEpic(epic);
-        Subtask subtask = new Subtask("subtask","desc",TaskStatus.NEW,epicId);
+        Subtask subtask = new Subtask("subtask", "desc", TaskStatus.NEW, epicId);
         int subtaskId = manager.addSubtask(subtask);
         manager.removeSubtask(subtaskId);
         List<Integer> ids = manager.getEpicById(epicId).getSubtasksIds();
         Assertions.assertFalse(ids.contains(subtaskId));
+    }
+
+    @Test
+    public void shouldChangingFieldInTaskChangeFieldInManager() {
+        Task task1 = new Task("task", "desc", TaskStatus.NEW, 1);
+        int id = manager.addTask(task1);
+        task1.setName("test1");
+        Assertions.assertEquals(task1.getName(), manager.getTaskById(id).getName());
     }
 }

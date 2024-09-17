@@ -12,13 +12,14 @@ import java.util.List;
 
 public class InMemoryHistoryManagerTest {
     TaskManager manager;
+
     @BeforeEach
     public void initTaskManager() {
         manager = Manager.getDefault();
     }
 
     @Test
-    public void shouldLinkedListAddCorrect(){
+    public void shouldLinkedListAddCorrect() {
         Task task = new Task("task", "desc", TaskStatus.NEW);
         Task task2 = new Task("task2", "desc", TaskStatus.NEW);
         Integer id1 = manager.addTask(task);
@@ -26,11 +27,11 @@ public class InMemoryHistoryManagerTest {
         manager.getTaskById(id1);
         manager.getTaskById(id2);
         List<Task> history = manager.getHistoryManager();
-        Assertions.assertEquals(history.get(1),task2);
+        Assertions.assertEquals(history.get(1), task2);
     }
 
     @Test
-    public void shouldLinkedListRemoveCorrect(){
+    public void shouldLinkedListRemoveCorrect() {
         Task task = new Task("task", "desc", TaskStatus.NEW);
         Task task2 = new Task("task2", "desc", TaskStatus.NEW);
         Task task3 = new Task("task3", "desc", TaskStatus.NEW);
@@ -42,6 +43,6 @@ public class InMemoryHistoryManagerTest {
         manager.getTaskById(id3);
         manager.removeTask(id2);
         List<Task> history = manager.getHistoryManager();
-        Assertions.assertEquals(history.get(1),task3);
+        Assertions.assertEquals(history.get(1), task3);
     }
 }
