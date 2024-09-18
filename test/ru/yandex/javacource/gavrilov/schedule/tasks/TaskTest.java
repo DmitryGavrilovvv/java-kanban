@@ -1,12 +1,9 @@
 package ru.yandex.javacource.gavrilov.schedule.tasks;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.javacource.gavrilov.schedule.manager.Manager;
 import ru.yandex.javacource.gavrilov.schedule.manager.TaskManager;
-import ru.yandex.javacource.gavrilov.schedule.task.Epic;
-import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
 
