@@ -16,7 +16,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             return;
         }
         Node node = new Node(task);
-        removeNode(node);
+        removeNode(node,task.getId());
         linkLast(task.getId(), node);
     }
 
@@ -25,7 +25,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (!history.containsKey(id)) {
             return;
         }
-        removeNode(history.get(id));
+        removeNode(history.get(id),id);
         history.remove(id);
     }
 
@@ -51,7 +51,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.setPrevious(Node.getHead());
         } else {
             node.setPrevious(Node.getTail());
-            ;
             Node.getTail().setNext(node);
         }
         Node.setTail(node);
@@ -69,17 +68,30 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasks;
     }
 
-    private void removeNode(Node node) {
-        if (history.containsKey(node.getValue().getId())) {
-            Node savedNode = history.get(node.getValue().getId());
+    private void removeNode(Node node,Integer id) {
+        if (history.containsKey(id)) {
+            Node savedNode = history.get(id);
             if (savedNode.equals(Node.getHead())) {
                 Node.setHead(null);
+            }else if (savedNode.equals(Node.getTail())) {
+                Node.setTail(savedNode.getPrevious());
             }
             if (savedNode.getPrevious() != null) {
-                savedNode.getPrevious().setNext(savedNode.getNext());
+                Node previousNode = savedNode.getPrevious();
+                if (savedNode.getNext() != null){
+                    previousNode.setNext(savedNode.getNext());
+                }else{
+                    previousNode.setNext(null);
+                }
             }
             if (savedNode.getNext() != null) {
-                savedNode.getNext().setPrevious(savedNode.getPrevious());
+                Node nextNode = savedNode.getNext();
+                if (savedNode.getPrevious() != null){
+                    nextNode.setPrevious(savedNode.getPrevious());
+                }else{
+                    node.setPrevious(null);
+                }
+                nextNode.setPrevious(savedNode.getPrevious());
             }
             history.remove(node.getValue().getId());
         }
