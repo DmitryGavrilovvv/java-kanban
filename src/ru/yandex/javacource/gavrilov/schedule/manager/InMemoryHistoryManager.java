@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final Map<Integer, Node> history = new HashMap<>();
-    private Node head =null;
+    private Node head = null;
     private Node tail = null;
 
     @Override
@@ -43,7 +43,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return getTasks();
     }
 
-    private void linkLast( Node node) {
+    private void linkLast(Node node) {
         if (node == null) {
             return;
         }
