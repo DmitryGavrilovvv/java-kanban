@@ -9,24 +9,28 @@ import java.util.HashMap;
 
 public class InMemoryHistoryManager implements HistoryManager {
     private final Map<Integer, Node> history = new HashMap<>();
+    private Node head =null;
+    private Node tail = null;
 
     @Override
-    public void addTaskInHistory(Task task) {
+    public void add(Task task) {
         if (task == null) {
             return;
         }
+        final int id = task.getId();
         Node node = new Node(task);
-        removeNode(node, task.getId());
-        linkLast(task.getId(), node);
+        remove(id);
+        linkLast(node);
+        history.put(id, node);
     }
 
     @Override
     public void remove(int id) {
-        if (!history.containsKey(id)) {
+        final Node node = history.remove(id);
+        if (node == null) {
             return;
         }
-        removeNode(history.get(id), id);
-        history.remove(id);
+        removeNode(node);
     }
 
     @Override
@@ -39,61 +43,48 @@ public class InMemoryHistoryManager implements HistoryManager {
         return getTasks();
     }
 
-    private void linkLast(int id, Node node) {
+    private void linkLast( Node node) {
         if (node == null) {
             return;
         }
-        history.put(id, node);
-        if (Node.getHead() == null) {
-            Node.setHead(node);
-        } else if (Node.getHead().equals(Node.getTail())) {
-            Node.getHead().setNext(node);
-            node.setPrevious(Node.getHead());
+        if (head == null) {
+            head = node;
+        } else if (head.equals(tail)) {
+            head.setNext(node);
+            node.setPrevious(head);
         } else {
-            node.setPrevious(Node.getTail());
-            Node.getTail().setNext(node);
+            node.setPrevious(tail);
+            tail.setNext(node);
         }
-        Node.setTail(node);
+        tail = node;
     }
 
     private List<Task> getTasks() {
         List<Task> tasks = new ArrayList<>();
-        Node node = Node.getHead();
-        for (int i = 0; i < history.size(); i++) {
+
+        Node node = head;
+        while (node != null) {
             tasks.add(node.getValue());
-            if (node.getNext() != null) {
-                node = node.getNext();
-            }
+            node = node.getNext();
         }
         return tasks;
     }
 
-    private void removeNode(Node node, Integer id) {
-        if (history.containsKey(id)) {
-            Node savedNode = history.get(id);
-            if (savedNode.equals(Node.getHead())) {
-                Node.setHead(null);
-            } else if (savedNode.equals(Node.getTail())) {
-                Node.setTail(savedNode.getPrevious());
+    private void removeNode(Node node) {
+        if (node.getPrevious() != null) {
+            node.getPrevious().setNext(node.getNext());
+            if (node.getNext() == null) {
+                tail = node.getPrevious();
+            } else {
+                node.getNext().setPrevious(node.getPrevious());
             }
-            if (savedNode.getPrevious() != null) {
-                Node previousNode = savedNode.getPrevious();
-                if (savedNode.getNext() != null) {
-                    previousNode.setNext(savedNode.getNext());
-                } else {
-                    previousNode.setNext(null);
-                }
+        } else {
+            head = node.getNext();
+            if (head == null) {
+                tail = null;
+            } else {
+                head.setPrevious(null);
             }
-            if (savedNode.getNext() != null) {
-                Node nextNode = savedNode.getNext();
-                if (savedNode.getPrevious() != null) {
-                    nextNode.setPrevious(savedNode.getPrevious());
-                } else {
-                    node.setPrevious(null);
-                }
-                nextNode.setPrevious(savedNode.getPrevious());
-            }
-            history.remove(node.getValue().getId());
         }
     }
 }
