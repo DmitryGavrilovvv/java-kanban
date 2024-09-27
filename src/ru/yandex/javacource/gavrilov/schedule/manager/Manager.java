@@ -1,5 +1,6 @@
 package ru.yandex.javacource.gavrilov.schedule.manager;
 
+
 public class Manager {
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();

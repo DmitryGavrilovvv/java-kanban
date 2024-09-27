@@ -11,12 +11,12 @@ import ru.yandex.javacource.gavrilov.schedule.task.*;
 /**
  * Класс для управления задачами
  */
-public final class InMemoryTaskManager implements TaskManager {
-    private int generatorId = 0;
-    private final HistoryManager historyManager = Manager.getDefaultHistoryManager();
-    private final Map<Integer, Task> tasks;
-    private final Map<Integer, Epic> epics;
-    private final Map<Integer, Subtask> subtasks;
+public class InMemoryTaskManager implements TaskManager {
+    protected int generatorId = 0;
+    protected final HistoryManager historyManager = Manager.getDefaultHistoryManager();
+    protected final Map<Integer, Task> tasks;
+    protected final Map<Integer, Epic> epics;
+    protected final Map<Integer, Subtask> subtasks;
 
     public InMemoryTaskManager() {
         tasks = new HashMap<>();
@@ -224,7 +224,7 @@ public final class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    private void updateEpicStatus(int epicId) {
+    protected void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         ArrayList<Integer> subtasksIds = epic.getSubtasksIds();
         ArrayList<Subtask> epicSubtasks = new ArrayList<>();
