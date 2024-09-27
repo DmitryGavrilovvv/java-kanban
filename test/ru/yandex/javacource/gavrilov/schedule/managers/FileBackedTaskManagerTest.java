@@ -17,7 +17,7 @@ public class FileBackedTaskManagerTest {
 
     @BeforeEach
     public void initTaskManager() throws IOException {
-        file = File.createTempFile("data", ".csv", new File("C:\\Users\\Дима\\IdeaProjects\\java-kanban\\src\\ru\\yandex\\javacource\\gavrilov\\schedule\\manager\\"));
+        file = File.createTempFile("data", ".csv");
         manager = FileBackedTaskManager.loadFromFile(file);
     }
 
