@@ -1,7 +1,6 @@
-package ru.yandex.javacource.gavrilov.schedule.managers;
+package ru.yandex.javacource.gavrilov.schedule.manager;
 
 import org.junit.jupiter.api.*;
-import ru.yandex.javacource.gavrilov.schedule.manager.FileBackedTaskManager;
 import ru.yandex.javacource.gavrilov.schedule.task.Epic;
 import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;

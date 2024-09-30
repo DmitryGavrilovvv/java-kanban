@@ -1,5 +1,6 @@
 package ru.yandex.javacource.gavrilov.schedule.manager;
 
+import ru.yandex.javacource.gavrilov.schedule.exception.ManagerSaveException;
 import ru.yandex.javacource.gavrilov.schedule.task.Epic;
 import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
@@ -9,10 +10,12 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
-    File file;
+public class FileBackedTaskManager extends InMemoryTaskManager {
+    private final File file;
+    private static final String First_String = "id;type;name;status;description;epic\n";
 
     public FileBackedTaskManager(File file) {
+        super();
         this.file = file;
     }
 
@@ -97,7 +100,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         save();
     }
 
-    public void save() {
+    protected void save() {
         try (Writer fileWriter = new FileWriter(file)) {
             List<String> stringsForSave = new ArrayList<>();
             for (Task task : tasks.values()) {
@@ -109,8 +112,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             for (Subtask subtask : subtasks.values()) {
                 stringsForSave.add(toString(subtask));
             }
-            String firstString = "id;type;name;status;description;epic\n";
-            fileWriter.write(firstString);
+            fileWriter.write(First_String);
             for (String str : stringsForSave) {
                 fileWriter.write(str);
             }
@@ -122,7 +124,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     private String toString(Task task) {
         Integer epicId = null;
-        if (subtasks.containsKey(task.getId())) {
+        if (task.getType().equals(Type.SUBTASK)) {
             epicId = subtasks.get(task.getId()).getEpicId();
         }
         String epicIdStr = " ";
@@ -150,16 +152,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             while (br.ready()) {
                 String line = br.readLine();
                 Task task = fromString(line);
-                if (task instanceof Epic) {
-                    manager.addEpic((Epic) task);
-                } else if (task instanceof Subtask) {
-                    manager.addSubtask((Subtask) task);
-                } else {
-                    manager.addTask(task);
+                Integer id = task.getId();
+                switch (task.getType()) {
+                    case Type.EPIC:
+                        manager.epics.put(id, (Epic) task);
+                    case Type.SUBTASK:
+                        manager.subtasks.put(id, (Subtask) task);
+                        manager.getEpicById(((Subtask) task).getEpicId()).addSubtaskId(id);
+                    default:
+                        manager.tasks.put(id, task);
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ManagerSaveException("Ошибка загрузки задач из файла");
         }
         return manager;
     }
@@ -167,27 +172,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     private static Task fromString(String value) {
         Task task;
         String[] str = value.split(";");
-        TaskStatus status;
-        if (str[3].equals("DONE")) {
-            status = TaskStatus.DONE;
-        } else if (str[3].equals("IN_PROGRESS")) {
-            status = TaskStatus.IN_PROGRESS;
-        } else {
-            status = TaskStatus.NEW;
-        }
-        if (str[1].equals("TASK")) {
-            task = new Task(str[2], str[4], status, Integer.parseInt(str[0]));
-        } else if (str[1].equals("EPIC")) {
-            task = new Epic(str[2], str[4], status, Integer.parseInt(str[0]));
-        } else {
-            task = new Subtask(str[2], str[4], status, Integer.parseInt(str[5]), Integer.parseInt(str[0]));
+        TaskStatus status = TaskStatus.valueOf(str[3]);
+        Type type = Type.valueOf(str[1]);
+        switch (type) {
+            case EPIC -> {
+                task = new Epic(str[2], str[4], status, Integer.parseInt(str[0]));
+            }
+            case SUBTASK -> {
+                task = new Subtask(str[2], str[4], status, Integer.parseInt(str[5]), Integer.parseInt(str[0]));
+            }
+            default -> task = new Task(str[2], str[4], status, Integer.parseInt(str[0]));
         }
         return task;
     }
 
-    static class ManagerSaveException extends RuntimeException {
-        public ManagerSaveException(final String message) {
-            super(message);
-        }
-    }
 }

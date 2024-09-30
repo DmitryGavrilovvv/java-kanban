@@ -1,10 +1,7 @@
-package ru.yandex.javacource.gavrilov.schedule.managers;
+package ru.yandex.javacource.gavrilov.schedule.manager;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import ru.yandex.javacource.gavrilov.schedule.manager.HistoryManager;
-import ru.yandex.javacource.gavrilov.schedule.manager.Manager;
-import ru.yandex.javacource.gavrilov.schedule.manager.TaskManager;
 
 
 public class ManagerTest {
