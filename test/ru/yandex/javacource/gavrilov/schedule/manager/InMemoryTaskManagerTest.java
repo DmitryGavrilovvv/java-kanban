@@ -47,7 +47,7 @@ public class InMemoryTaskManagerTest {
         Task task2 = new Task("task", "desc", TaskStatus.NEW);
         manager.addTask(task2);//при добавлении в мапу должен присвоиться id = 1
         Integer id2 = manager.addTask(task1);
-        Assertions.assertEquals(task1.getId(),id2);
+        Assertions.assertEquals(task1.getId(), id2);
     }
 
     @Test
