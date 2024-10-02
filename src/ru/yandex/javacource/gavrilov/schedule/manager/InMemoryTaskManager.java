@@ -212,23 +212,23 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    protected void generatorId(){
-        for(Task task : tasks.values()){
+    protected void generatorId() {
+        for (Task task : tasks.values()) {
             Integer id = task.getId();
-            if(id>generatorId){
-                generatorId=id;
+            if (id > generatorId) {
+                generatorId = id;
             }
         }
-        for(Epic epic : epics.values()){
+        for (Epic epic : epics.values()) {
             Integer id = epic.getId();
-            if(id>generatorId){
-                generatorId=id;
+            if (id > generatorId) {
+                generatorId = id;
             }
         }
-        for(Subtask subtask : subtasks.values()){
+        for (Subtask subtask : subtasks.values()) {
             Integer id = subtask.getId();
-            if(id>generatorId){
-                generatorId=id;
+            if (id > generatorId) {
+                generatorId = id;
             }
         }
     }
