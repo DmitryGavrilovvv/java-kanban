@@ -13,7 +13,7 @@ import ru.yandex.javacource.gavrilov.schedule.task.*;
  */
 public class InMemoryTaskManager implements TaskManager {
     protected int generatorId = 0;
-    protected final HistoryManager historyManager = Manager.getDefaultHistoryManager();
+    private final HistoryManager historyManager = Manager.getDefaultHistoryManager();
     protected final Map<Integer, Task> tasks;
     protected final Map<Integer, Epic> epics;
     protected final Map<Integer, Subtask> subtasks;
@@ -26,6 +26,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addTask(Task task) {
+        generatorId();
         task.setId(++generatorId);
 
         tasks.put(task.getId(), task);
@@ -43,6 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addEpic(Epic epic) {
+        generatorId();
         epic.setId(++generatorId);
         epics.put(epic.getId(), epic);
         return epic.getId();
@@ -61,6 +63,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Integer addSubtask(Subtask subtask) {
+        generatorId();
         subtask.setId(++generatorId);
         Epic epic = epics.get(subtask.getEpicId());
         subtasks.put(subtask.getId(), subtask);
@@ -207,6 +210,27 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Task> getHistoryManager() {
         return historyManager.getHistory();
+    }
+
+    protected void generatorId(){
+        for(Task task : tasks.values()){
+            Integer id = task.getId();
+            if(id>generatorId){
+                generatorId=id;
+            }
+        }
+        for(Epic epic : epics.values()){
+            Integer id = epic.getId();
+            if(id>generatorId){
+                generatorId=id;
+            }
+        }
+        for(Subtask subtask : subtasks.values()){
+            Integer id = subtask.getId();
+            if(id>generatorId){
+                generatorId=id;
+            }
+        }
     }
 
     protected void updateEpicStatus(int epicId) {
