@@ -1,5 +1,7 @@
 package ru.yandex.javacource.gavrilov.schedule.task;
 
+import ru.yandex.javacource.gavrilov.schedule.manager.Type;
+
 public class Subtask extends Task {
     private int epicId;
 
@@ -21,6 +23,10 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    @Override
+    public Type getType() {
+        return Type.SUBTASK;
+    }
 
     @Override
     public String toString() {

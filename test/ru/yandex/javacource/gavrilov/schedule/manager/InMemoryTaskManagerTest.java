@@ -1,10 +1,8 @@
-package ru.yandex.javacource.gavrilov.schedule.managers;
+package ru.yandex.javacource.gavrilov.schedule.manager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.javacource.gavrilov.schedule.manager.Manager;
-import ru.yandex.javacource.gavrilov.schedule.manager.TaskManager;
 import ru.yandex.javacource.gavrilov.schedule.task.Epic;
 import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
@@ -49,7 +47,7 @@ public class InMemoryTaskManagerTest {
         Task task2 = new Task("task", "desc", TaskStatus.NEW);
         manager.addTask(task2);//при добавлении в мапу должен присвоиться id = 1
         Integer id2 = manager.addTask(task1);
-        Assertions.assertNull(id2);
+        Assertions.assertEquals(task1.getId(), id2);
     }
 
     @Test
@@ -69,7 +67,7 @@ public class InMemoryTaskManagerTest {
         manager.updateTask(task2);
         task = manager.getTaskById(1);
         List<Task> history = manager.getHistoryManager();
-        Assertions.assertNotEquals(task1, history.get(0));
+        Assertions.assertNotEquals(task1, history.getFirst());
     }
 
     @Test

@@ -1,5 +1,7 @@
 package ru.yandex.javacource.gavrilov.schedule.task;
 
+import ru.yandex.javacource.gavrilov.schedule.manager.Type;
+
 import java.util.Objects;
 
 public class Task {
@@ -53,6 +55,9 @@ public class Task {
         this.id = id;
     }
 
+    public Type getType() {
+        return Type.TASK;
+    }
 
     @Override
     public String toString() {

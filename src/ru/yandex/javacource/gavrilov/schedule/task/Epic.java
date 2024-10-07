@@ -1,15 +1,22 @@
 package ru.yandex.javacource.gavrilov.schedule.task;
 
+import ru.yandex.javacource.gavrilov.schedule.manager.Type;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subtasksIds = new ArrayList<>();
+    private List<Integer> subtasksIds = new ArrayList<>();
 
     public Epic(String name, String description, TaskStatus status) {
         super(name, description, status);
     }
 
-    public ArrayList<Integer> getSubtasksIds() {
+    public Epic(String name, String description, TaskStatus status, Integer id) {
+        super(name, description, status, id);
+    }
+
+    public List<Integer> getSubtasksIds() {
         return subtasksIds;
     }
 
@@ -21,7 +28,7 @@ public class Epic extends Task {
         subtasksIds.remove(subtaskId);
     }
 
-    public void setSubtasksIds(ArrayList<Integer> subtasksIds) {
+    public void setSubtasksIds(List<Integer> subtasksIds) {
         this.subtasksIds = subtasksIds;
     }
 
@@ -29,6 +36,10 @@ public class Epic extends Task {
         subtasksIds.clear();
     }
 
+    @Override
+    public Type getType() {
+        return Type.EPIC;
+    }
 
     @Override
     public String toString() {
