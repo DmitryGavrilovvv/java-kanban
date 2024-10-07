@@ -146,6 +146,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 String line = br.readLine();
                 Task task = fromString(line);
                 Integer id = task.getId();
+                if (manager.generatorId < id) {
+                    manager.generatorId = id;
+                }
                 switch (task.getType()) {
                     case Type.EPIC:
                         manager.epics.put(id, (Epic) task);
