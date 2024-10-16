@@ -2,6 +2,7 @@ package ru.yandex.javacource.gavrilov.schedule.manager;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.yandex.javacource.gavrilov.schedule.exception.TaskValidationException;
 import ru.yandex.javacource.gavrilov.schedule.task.Epic;
 import ru.yandex.javacource.gavrilov.schedule.task.Subtask;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
@@ -9,7 +10,6 @@ import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Override
@@ -86,8 +86,6 @@ public class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager
                 , LocalDateTime.of(2024, 2, 12, 16, 10, 0));
         manager.addTask(task1);
         manager.addTask(task2);
-        manager.addTask(task3);
-        List<Task> prTasks = manager.getPrioritizedTasks();
-        Assertions.assertEquals(prTasks.size(), 2);
+        Assertions.assertThrows(TaskValidationException.class, () -> manager.addTask(task3));
     }
 }

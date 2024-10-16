@@ -31,9 +31,9 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskMan
 
     @Test
     public void shouldFileBackedManagerSaveTasksInFile() throws IOException {
-        manager.addTask(new Task("task", "des", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now()));
+        manager.addTask(new Task("task", "des", TaskStatus.NEW, null, null));
         Integer epicId = manager.addEpic(new Epic("task", "des", TaskStatus.NEW));
-        manager.addSubtask(new Subtask("task", "des", TaskStatus.NEW, epicId, Duration.ofMinutes(1), LocalDateTime.now()));
+        manager.addSubtask(new Subtask("task", "des", TaskStatus.NEW, epicId, null, null));
         String str = Files.readString(file.toPath());
         Assertions.assertNotNull(str);
     }

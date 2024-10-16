@@ -3,6 +3,7 @@ package ru.yandex.javacource.gavrilov.schedule.manager;
 import java.time.Duration;
 import java.util.*;
 
+import ru.yandex.javacource.gavrilov.schedule.exception.TaskValidationException;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
 import ru.yandex.javacource.gavrilov.schedule.task.*;
 
@@ -16,7 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Epic> epics;
     protected final Map<Integer, Subtask> subtasks;
     private final Set<Task> prioritizedTasks;
-    Comparator<Task> comparator = (Comparator.comparing(Task::getStartTime));
+    private final Comparator<Task> comparator = (Comparator.comparing(Task::getStartTime));
 
     public InMemoryTaskManager() {
         prioritizedTasks = new TreeSet<>(comparator);
@@ -30,9 +31,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (task == null) {
             return null;
         }
+        addTaskInPrioritizedTasks(task);
         task.setId(++generatorId);
         tasks.put(task.getId(), task);
-        addTaskInPrioritizedTasks(task);
         return task.getId();
     }
 
@@ -42,9 +43,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (savedTask == null) {
             return;
         }
+        addTaskInPrioritizedTasks(task);
         tasks.put(task.getId(), task);
         prioritizedTasks.remove(savedTask);
-        addTaskInPrioritizedTasks(task);
     }
 
     @Override
@@ -78,8 +79,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return null;
         }
-        subtasks.put(subtask.getId(), subtask);
         addTaskInPrioritizedTasks(subtask);
+        subtasks.put(subtask.getId(), subtask);
         epic.addSubtaskId(subtask.getId());
         updateEpicStatus(epic.getId());
         updateEpicTime(epic);
@@ -96,9 +97,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return;
         }
+        addTaskInPrioritizedTasks(subtask);
         subtasks.put(subtask.getId(), subtask);
         prioritizedTasks.remove(savedSubtask);
-        addTaskInPrioritizedTasks(subtask);
         updateEpicStatus(epic.getId());
         updateEpicTime(epic);
 
@@ -253,7 +254,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         if (!isIntersectionTasks(task)) {
-            return;
+            throw new TaskValidationException("Задача пересекаются");
         }
         prioritizedTasks.add(task);
     }
