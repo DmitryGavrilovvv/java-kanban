@@ -49,8 +49,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
 
     @Test
     public void shouldNotConflictTasksPerId() {
-        Task task1 = new Task("task", "desc", TaskStatus.NEW, 1, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task1 = new Task("task", "desc", TaskStatus.NEW, 1, null, null);
+        Task task2 = new Task("task", "desc", TaskStatus.NEW, null, null);
         manager.addTask(task2);//при добавлении в мапу должен присвоиться id = 1
         Integer id2 = manager.addTask(task1);
         Assertions.assertEquals(task1.getId(), id2);

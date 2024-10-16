@@ -5,9 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class InMemoryHistoryManagerTest {
@@ -20,8 +17,8 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldHistoryManagerSaveTaskAndUpdateTask() {
-        Task task1 = new Task("task", "desc", TaskStatus.NEW, 1, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task1", "desc", TaskStatus.NEW, 1, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task1 = new Task("task", "desc", TaskStatus.NEW, 1, null, null);
+        Task task2 = new Task("task1", "desc", TaskStatus.NEW, 1, null, null);
         manager.addTask(task1);
         Task task = manager.getTaskById(1);
         manager.updateTask(task2);
@@ -32,8 +29,8 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldLinkedListAddCorrect() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);
         manager.getTaskById(id1);
@@ -44,9 +41,9 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldLinkedListRemoveCorrect() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task3 = new Task("task3", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null,null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
+        Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);
         Integer id3 = manager.addTask(task3);
@@ -60,9 +57,9 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldClearHistory() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task3 = new Task("task3", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
+        Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);
         Integer id3 = manager.addTask(task3);
@@ -75,7 +72,7 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldCorrectReturnHistory() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         manager.getTaskById(id1);
         Assertions.assertTrue(manager.getHistory().contains(manager.getTaskById(id1)));
@@ -83,9 +80,9 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldCorrectRemoveFirstTaskInHistory() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task3 = new Task("task3", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
+        Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);
         Integer id3 = manager.addTask(task3);
@@ -99,9 +96,9 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldCorrectRemoveLastTaskInHistory() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task3 = new Task("task3", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
+        Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);
         Integer id3 = manager.addTask(task3);
@@ -115,9 +112,9 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldCorrectRemoveMiddleTaskInHistory() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
-        Task task3 = new Task("task3", "desc", TaskStatus.NEW, Duration.ofMinutes(1), LocalDateTime.now());
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null,null);
+        Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);
         Integer id3 = manager.addTask(task3);
