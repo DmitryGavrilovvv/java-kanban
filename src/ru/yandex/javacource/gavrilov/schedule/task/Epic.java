@@ -2,18 +2,30 @@ package ru.yandex.javacource.gavrilov.schedule.task;
 
 import ru.yandex.javacource.gavrilov.schedule.manager.Type;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
     private List<Integer> subtasksIds = new ArrayList<>();
+    private LocalDateTime endTime;
 
     public Epic(String name, String description, TaskStatus status) {
-        super(name, description, status);
+
+        super(name, description, status, null, null);
     }
 
     public Epic(String name, String description, TaskStatus status, Integer id) {
-        super(name, description, status, id);
+        super(name, description, status, id, null, null);
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public List<Integer> getSubtasksIds() {

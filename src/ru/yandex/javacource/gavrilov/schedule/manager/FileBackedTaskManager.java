@@ -7,12 +7,16 @@ import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
     private static final String FIRST_STRING = "id;type;name;status;description;epic\n";
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm-ss");
 
     public FileBackedTaskManager(File file) {
         super();
@@ -132,9 +136,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             epicIdStr = epicId.toString();
         }
         Type type = task.getType();
+        String start;
+        if (task.getStartTime() == null) {
+            start = null;
+        } else {
+            start = task.getStartTime().format(formatter);
+        }
+        String dur;
+        if (task.getDuration() == null) {
+            dur = null;
+        } else {
+            dur = task.getDuration().toString();
+        }
 
         return String.join(";", task.getId().toString(), type.toString(), task.getName(), task.getStatus().toString(), task.getDescription(),
-                epicIdStr, "\n");
+                epicIdStr, start, dur, "\n");
     }
 
     public static FileBackedTaskManager loadFromFile(File file) {
@@ -173,14 +189,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String name = str[2];
         String desc = str[4];
         Integer id = Integer.parseInt(str[0]);
+        Duration duration = Duration.parse(str[6]);
+        LocalDateTime startTime = LocalDateTime.parse(str[7], formatter);
         switch (type) {
             case Type.EPIC -> {
                 task = new Epic(name, desc, status, id);
             }
             case Type.SUBTASK -> {
-                task = new Subtask(name, desc, status, Integer.parseInt(str[5]), id);
+                task = new Subtask(name, desc, status, Integer.parseInt(str[5]), id, duration, startTime);
             }
-            default -> task = new Task(name, desc, status, id);
+            default -> task = new Task(name, desc, status, id, duration, startTime);
         }
         return task;
     }
