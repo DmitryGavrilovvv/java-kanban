@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.yandex.javacource.gavrilov.schedule.task.Task;
 import ru.yandex.javacource.gavrilov.schedule.task.TaskStatus;
+
 import java.util.List;
 
 public class InMemoryHistoryManagerTest {
@@ -41,7 +42,7 @@ public class InMemoryHistoryManagerTest {
 
     @Test
     public void shouldLinkedListRemoveCorrect() {
-        Task task = new Task("task", "desc", TaskStatus.NEW, null,null);
+        Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
         Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
         Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
@@ -113,7 +114,7 @@ public class InMemoryHistoryManagerTest {
     @Test
     public void shouldCorrectRemoveMiddleTaskInHistory() {
         Task task = new Task("task", "desc", TaskStatus.NEW, null, null);
-        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null,null);
+        Task task2 = new Task("task2", "desc", TaskStatus.NEW, null, null);
         Task task3 = new Task("task3", "desc", TaskStatus.NEW, null, null);
         Integer id1 = manager.addTask(task);
         Integer id2 = manager.addTask(task2);

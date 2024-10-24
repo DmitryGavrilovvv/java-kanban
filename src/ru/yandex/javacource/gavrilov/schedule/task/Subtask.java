@@ -11,11 +11,13 @@ public class Subtask extends Task {
     public Subtask(String name, String description, TaskStatus status, int epicId, Integer id, Duration duration, LocalDateTime startTime) {
         super(name, description, status, id, duration, startTime);
         this.epicId = epicId;
+        type = Type.SUBTASK;
     }
 
     public Subtask(String name, String description, TaskStatus status, int epicId, Duration duration, LocalDateTime startTime) {
         super(name, description, status, duration, startTime);
         this.epicId = epicId;
+        type = Type.SUBTASK;
     }
 
     public int getEpicId() {
@@ -24,11 +26,6 @@ public class Subtask extends Task {
 
     public void setEpicId(int epicId) {
         this.epicId = epicId;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.SUBTASK;
     }
 
     @Override

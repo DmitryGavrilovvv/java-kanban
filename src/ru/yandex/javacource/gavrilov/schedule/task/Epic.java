@@ -11,12 +11,13 @@ public class Epic extends Task {
     private LocalDateTime endTime;
 
     public Epic(String name, String description, TaskStatus status) {
-
         super(name, description, status, null, null);
+        type = Type.EPIC;
     }
 
     public Epic(String name, String description, TaskStatus status, Integer id) {
         super(name, description, status, id, null, null);
+        type = Type.EPIC;
     }
 
     @Override
@@ -46,11 +47,6 @@ public class Epic extends Task {
 
     public void cleanSubtaskIds() {
         subtasksIds.clear();
-    }
-
-    @Override
-    public Type getType() {
-        return Type.EPIC;
     }
 
     @Override
