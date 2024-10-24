@@ -43,7 +43,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (savedTask == null) {
             return;
         }
-        updateTaskInPrioritizedTasks(task,savedTask);
+        updateTaskInPrioritizedTasks(task, savedTask);
         tasks.put(task.getId(), task);
     }
 
@@ -96,7 +96,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return;
         }
-        updateTaskInPrioritizedTasks(subtask,savedSubtask);
+        updateTaskInPrioritizedTasks(subtask, savedSubtask);
         subtasks.put(subtask.getId(), subtask);
         updateEpicStatus(epic.getId());
         updateEpicTime(epic);

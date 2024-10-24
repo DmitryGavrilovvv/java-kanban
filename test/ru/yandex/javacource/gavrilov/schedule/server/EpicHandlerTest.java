@@ -37,14 +37,14 @@ public class EpicHandlerTest {
     }
 
     @AfterEach
-    public void stopServer(){
+    public void stopServer() {
         server.stop();
         client.close();
     }
 
     @Test
     public void addEpic_shouldAddEpic() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         String epicJson = gson.toJson(epic);
 
         URI url = URI.create("http://localhost:8080/epics");
@@ -66,7 +66,7 @@ public class EpicHandlerTest {
 
     @Test
     public void getEpic_shouldGetEpic() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         manager.addEpic(epic);
 
         URI url = URI.create("http://localhost:8080/epics/1");
@@ -124,9 +124,9 @@ public class EpicHandlerTest {
 
     @Test
     public void getEpicSubtasks_shouldGetEpicSubtasks() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Subtask subtask = new Subtask("Subtask 1", "Testing subtask 1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now().plusMinutes(30));
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now().plusMinutes(30));
         manager.addEpic(epic);
         manager.addSubtask(subtask);
 

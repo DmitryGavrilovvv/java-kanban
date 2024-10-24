@@ -36,7 +36,7 @@ public class PrioritizedHandlerTest {
     }
 
     @AfterEach
-    public void stopServer(){
+    public void stopServer() {
         server.stop();
         client.close();
     }

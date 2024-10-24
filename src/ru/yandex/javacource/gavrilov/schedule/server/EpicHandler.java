@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
-public class EpicHandler extends BaseHttpHandler{
+public class EpicHandler extends BaseHttpHandler {
     public EpicHandler(TaskManager manager, Gson gson) {
-        super(manager,gson);
+        super(manager, gson);
     }
 
     @Override
@@ -29,36 +29,36 @@ public class EpicHandler extends BaseHttpHandler{
         }
         switch (endpoint) {
             case GET: {
-                String response = gson.toJson(manager.getEpics(),new EpicListTypeToken().getType());
-                writeResponse(exchange,response,200);
+                String response = gson.toJson(manager.getEpics(), new EpicListTypeToken().getType());
+                writeResponse(exchange, response, 200);
                 break;
             }
-            case GET_ID:{
+            case GET_ID: {
                 Epic epic = manager.getEpicById(Integer.parseInt(pathParts[2]));
-                if (epic == null){
-                    writeResponse(exchange,"Эпик не найден",404);
-                }else {
-                    serializeEpic(epic,exchange);
+                if (epic == null) {
+                    writeResponse(exchange, "Эпик не найден", 404);
+                } else {
+                    serializeEpic(epic, exchange);
                 }
                 break;
             }
             case ADD: {
-                Integer id = manager.addEpic(checkEpic(body,exchange));
-                writeResponse(exchange,"Эпик добавлен. Id эпика - "+id,201);
+                Integer id = manager.addEpic(checkEpic(body, exchange));
+                writeResponse(exchange, "Эпик добавлен. Id эпика - " + id, 201);
                 break;
             }
-            case GET_EPIC_SUBTASKS:{
-                String response = gson.toJson(manager.getAllEpicSubtasks(Integer.parseInt(pathParts[2])),new SubtaskListTypeToken().getType());
-                writeResponse(exchange,response,200);
+            case GET_EPIC_SUBTASKS: {
+                String response = gson.toJson(manager.getAllEpicSubtasks(Integer.parseInt(pathParts[2])), new SubtaskListTypeToken().getType());
+                writeResponse(exchange, response, 200);
                 break;
             }
             case DELETE:
                 Epic epic = manager.getEpicById(Integer.parseInt(pathParts[2]));
-                if (epic==null) {
+                if (epic == null) {
                     writeResponse(exchange, "Эпик не найдена", 404);
-                }else {
+                } else {
                     manager.removeEpic(Integer.parseInt(pathParts[2]));
-                    writeResponse(exchange,"Эпик удален",200);
+                    writeResponse(exchange, "Эпик удален", 200);
                 }
                 break;
             default:
@@ -66,23 +66,23 @@ public class EpicHandler extends BaseHttpHandler{
         }
     }
 
-    private void serializeEpic(Epic epic,HttpExchange exchange) throws IOException {
+    private void serializeEpic(Epic epic, HttpExchange exchange) throws IOException {
         String response = gson.toJson(epic);
-        writeResponse(exchange,response,200);
+        writeResponse(exchange, response, 200);
     }
 
-    protected Task deserializeEpic(String str){
-        return gson.fromJson(str,Epic.class);
+    protected Task deserializeEpic(String str) {
+        return gson.fromJson(str, Epic.class);
     }
 
     private Epic checkEpic(String body, HttpExchange exchange) throws IOException {
         Task task = deserializeEpic(body);
         Epic epic = null;
-        if (task.getType().equals(Type.EPIC)){
+        if (task.getType().equals(Type.EPIC)) {
             epic = (Epic) task;
         }
-        if (epic==null){
-            writeResponse(exchange,"Передан не Эпик", 406);
+        if (epic == null) {
+            writeResponse(exchange, "Передан не Эпик", 406);
         }
         return epic;
     }

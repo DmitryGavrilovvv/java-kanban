@@ -37,16 +37,16 @@ public class SubtaskHandlerTest {
     }
 
     @AfterEach
-    public void stopServer(){
+    public void stopServer() {
         server.stop();
         client.close();
     }
 
     @Test
     public void addSubtask_shouldAddSubtask() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Subtask sub = new Subtask("Sub 1", "Testing sub 1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now());
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now());
         String subJson = gson.toJson(sub);
 
         manager.addEpic(epic);
@@ -70,18 +70,18 @@ public class SubtaskHandlerTest {
 
     @Test
     public void updateSubtask_shouldUpdateSubtask() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Integer epicId = manager.addEpic(epic);
         Subtask sub = new Subtask("Sub 1", "Testing sub 1",
-                TaskStatus.NEW,epicId, Duration.ofMinutes(5), LocalDateTime.now());
+                TaskStatus.NEW, epicId, Duration.ofMinutes(5), LocalDateTime.now());
 
         Integer id = manager.addSubtask(sub);
 
-        Subtask subUpd = new Subtask( "UPDATE", "Testing sub 1",
-                TaskStatus.NEW,epicId,id, Duration.ofMinutes(5), LocalDateTime.now());
+        Subtask subUpd = new Subtask("UPDATE", "Testing sub 1",
+                TaskStatus.NEW, epicId, id, Duration.ofMinutes(5), LocalDateTime.now());
         String subJson = gson.toJson(subUpd);
 
-        URI url = URI.create("http://localhost:8080/subtasks/"+id);
+        URI url = URI.create("http://localhost:8080/subtasks/" + id);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .header("Content-Type", "application/json")
@@ -100,9 +100,9 @@ public class SubtaskHandlerTest {
 
     @Test
     public void getSubtask_shouldGetSubtask() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Subtask sub = new Subtask("Sub 1", "Testing sub 1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now());
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now());
         manager.addEpic(epic);
         manager.addSubtask(sub);
 
@@ -120,9 +120,9 @@ public class SubtaskHandlerTest {
 
     @Test
     public void deleteSubtask_shouldRemoveSubtask() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Subtask sub = new Subtask("Sub 1", "Testing sub 1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now());
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now());
         manager.addEpic(epic);
         manager.addSubtask(sub);
 
@@ -164,11 +164,11 @@ public class SubtaskHandlerTest {
 
     @Test
     public void addSubtask_shouldNotAddSubtaskIntersection() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Subtask sub1 = new Subtask("Sub 1", "Testing sub 1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now());
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now());
         Subtask sub2 = new Subtask("Sub 2", "Testing sub 2",
-                TaskStatus.NEW,1, Duration.ofMinutes(10), LocalDateTime.now());
+                TaskStatus.NEW, 1, Duration.ofMinutes(10), LocalDateTime.now());
         manager.addEpic(epic);
         manager.addSubtask(sub1);
         String subJson = gson.toJson(sub2);
@@ -186,11 +186,11 @@ public class SubtaskHandlerTest {
 
     @Test
     public void updateSubtask_shouldNotUpdateSubtaskIntersection() throws IOException, InterruptedException {
-        Epic epic = new Epic("Epic 1", "Testing epic 1",TaskStatus.NEW);
+        Epic epic = new Epic("Epic 1", "Testing epic 1", TaskStatus.NEW);
         Subtask sub1 = new Subtask("Sub 1", "Testing sub 1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now());
-        Subtask sub2 = new Subtask( "UPDATE", "Testing sub 2",
-                TaskStatus.NEW,1,2, Duration.ofMinutes(12), LocalDateTime.now().plusMinutes(30));
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now());
+        Subtask sub2 = new Subtask("UPDATE", "Testing sub 2",
+                TaskStatus.NEW, 1, 2, Duration.ofMinutes(12), LocalDateTime.now().plusMinutes(30));
         Task task = new Task("Test 2", "Testing task 2",
                 TaskStatus.NEW, Duration.ofMinutes(10), LocalDateTime.now().plusMinutes(30));
 
@@ -207,6 +207,6 @@ public class SubtaskHandlerTest {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(406, response.statusCode(),response.body());
+        Assertions.assertEquals(406, response.statusCode(), response.body());
     }
 }

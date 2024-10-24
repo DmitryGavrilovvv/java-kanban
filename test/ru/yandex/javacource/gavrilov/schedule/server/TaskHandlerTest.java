@@ -35,7 +35,7 @@ public class TaskHandlerTest {
     }
 
     @AfterEach
-    public void stopServer(){
+    public void stopServer() {
         server.stop();
         client.close();
     }
@@ -72,7 +72,7 @@ public class TaskHandlerTest {
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(200, response.statusCode());
-        Assertions.assertEquals(taskJson,response.body());
+        Assertions.assertEquals(taskJson, response.body());
     }
 
     @Test
@@ -82,8 +82,8 @@ public class TaskHandlerTest {
                 TaskStatus.NEW, Duration.ofMinutes(5), LocalDateTime.now());
         manager.addTask(task);
 
-        Task updTask = new Task("t1","d1",
-                TaskStatus.NEW,1, Duration.ofMinutes(5), LocalDateTime.now());
+        Task updTask = new Task("t1", "d1",
+                TaskStatus.NEW, 1, Duration.ofMinutes(5), LocalDateTime.now());
         String taskJson = gson.toJson(updTask);
 
         URI url = URI.create("http://localhost:8080/tasks/1");
@@ -94,7 +94,7 @@ public class TaskHandlerTest {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(201, response.statusCode(),response.body());
+        Assertions.assertEquals(201, response.statusCode(), response.body());
 
         List<Task> tasksFromManager = manager.getTasks();
 
@@ -162,7 +162,7 @@ public class TaskHandlerTest {
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assertions.assertEquals(406, response.statusCode(),response.body());
+        Assertions.assertEquals(406, response.statusCode(), response.body());
     }
 
     @Test
@@ -171,8 +171,8 @@ public class TaskHandlerTest {
                 TaskStatus.NEW, Duration.ofMinutes(10), LocalDateTime.now());
         Task task2 = new Task("Test 2", "Testing task 2",
                 TaskStatus.NEW, Duration.ofMinutes(5), LocalDateTime.now().plusMinutes(30));
-        Task updTask = new Task( "UPDATE", "Testing task 2",
-                TaskStatus.NEW,1, Duration.ofMinutes(40), LocalDateTime.now());
+        Task updTask = new Task("UPDATE", "Testing task 2",
+                TaskStatus.NEW, 1, Duration.ofMinutes(40), LocalDateTime.now());
 
         manager.addTask(task1);
         manager.addTask(task2);
