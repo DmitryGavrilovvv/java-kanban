@@ -43,9 +43,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (savedTask == null) {
             return;
         }
-        addTaskInPrioritizedTasks(task);
+        updateTaskInPrioritizedTasks(task,savedTask);
         tasks.put(task.getId(), task);
-        prioritizedTasks.remove(savedTask);
     }
 
     @Override
@@ -97,9 +96,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return;
         }
-        addTaskInPrioritizedTasks(subtask);
+        updateTaskInPrioritizedTasks(subtask,savedSubtask);
         subtasks.put(subtask.getId(), subtask);
-        prioritizedTasks.remove(savedSubtask);
         updateEpicStatus(epic.getId());
         updateEpicTime(epic);
 
@@ -253,7 +251,19 @@ public class InMemoryTaskManager implements TaskManager {
         if (task.getStartTime() == null || task.getDuration() == null) {
             return;
         }
-        if (!isIntersectionTasks(task)) {
+        if (isIntersectionTasks(task)) {
+            throw new TaskValidationException("Задача пересекаются");
+        }
+        prioritizedTasks.add(task);
+    }
+
+    private void updateTaskInPrioritizedTasks(Task task, Task savedTask) {
+        prioritizedTasks.remove(savedTask);
+        if (task.getStartTime() == null || task.getDuration() == null) {
+            return;
+        }
+        if (isIntersectionTasks(task)) {
+            prioritizedTasks.add(savedTask);
             throw new TaskValidationException("Задача пересекаются");
         }
         prioritizedTasks.add(task);
@@ -266,7 +276,7 @@ public class InMemoryTaskManager implements TaskManager {
                         || (task1.getStartTime().isAfter(task.getStartTime()) && task1.getStartTime()
                         .isBefore(task.getEndTime())))
                 .count();
-        return i == 0;
+        return i != 0;
     }
 
     private void updateEpicTime(Epic epic) {
