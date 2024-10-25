@@ -13,6 +13,7 @@ public class Task {
     protected Integer id;
     protected Duration duration;
     protected LocalDateTime startTime;
+    protected Type type = Type.TASK;
 
     public Task(String name, String description, TaskStatus status, Integer id, Duration duration, LocalDateTime startTime) {
         this.name = name;
@@ -72,7 +73,7 @@ public class Task {
     }
 
     public Type getType() {
-        return Type.TASK;
+        return type;
     }
 
     public Duration getDuration() {
